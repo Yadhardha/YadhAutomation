@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Switch Automation</title>
+    <script>
+
+        function generateFields() {
+            const num = document.getElementById("num_switches").value;
+            const container = document.getElementById("switch_fields");
+            container.innerHTML = "";
+            for(let i=1; i<=num; i++){
+                container.innerHTML += `
+                    <h4>Switch ${i}</h4>
+                    Host/IP: <input name="host_${i}" required><br>
+                    Interface/Port: <input name="interface_${i}" required><br><br>
+                `;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>Network Switch Automation</h2>
+
+    <!-- Step 1: SSH credentials -->
+    <form method="post" action="/store_creds">
+        <h3>Enter SSH Credentials</h3>
+        SSH Username: <input name="username" required><br><br>
+        SSH Password: <input type="password" name="password" required><br><br>
+        <input type="submit" value="Submit Credentials">
+    </form>
+
+    <hr>
+
+    <!-- Step 2: Dynamic switch entries -->
+    <form method="post" action="/run_switches">
+        <h3>Enter Switch Details</h3>
+        Number of switches: <input type="number" id="num_switches" name="num_switches" value="1" min="1">
+        <button type="button" onclick="generateFields()">Generate Fields</button><br><br>
+
+        <div id="switch_fields">
+            <!-- Dynamically generated switch fields appear here -->
+        </div>
+
+        <input type="submit" value="Run">
+    </form>
+
+    <hr>
+
+   
+    <h3>Output:</h3>
+    <pre>{{ output }}</pre>
+</body>
+</html>
